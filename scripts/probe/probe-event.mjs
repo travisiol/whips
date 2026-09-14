@@ -1,0 +1,11 @@
+import { createPublicClient, http } from "viem";
+const client = createPublicClient({ transport: http("https://rpc.mainnet.chain.robinhood.com") });
+const FACTORY = "0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e";
+const head = await client.getBlockNumber();
+const logs = await client.getLogs({ address: FACTORY, fromBlock: head - 2000n, toBlock: head });
+const topics = [...new Set(logs.map((l) => l.topics[0]))];
+const res = await fetch(`https://api.openchain.xyz/signature-database/v1/lookup?event=${topics.join(",")}&filter=true`);
+const json = await res.json();
+for (const t of topics) console.log(t, JSON.stringify(json.result?.event?.[t]));
+const one = logs.find((l) => l.topics[0].startsWith("0x8d4aad49"));
+console.log("sample TokenLaunched", { topics: one.topics, data: one.data, tx: one.transactionHash, block: one.blockNumber });

@@ -1,0 +1,10 @@
+import { createPublicClient, http, parseAbi } from "viem";
+import { whipsLauncherAbi } from "../../src/lib/abi/WhipsLauncher.ts";
+const client = createPublicClient({ transport: http("http://127.0.0.1:8556", { timeout: 120_000 }) });
+const L = "0x1D3EDBa836caB11C26A186873abf0fFeB8bbaE63";
+console.log("claimCount", await client.readContract({ address: L, abi: whipsLauncherAbi, functionName: "claimCount" }));
+console.log("claims(1)", await client.readContract({ address: L, abi: whipsLauncherAbi, functionName: "claims", args: [1n] }));
+const chainWithMc = { id: 31337, name: "fork", nativeCurrency: { name: "E", symbol: "E", decimals: 18 }, rpcUrls: { default: { http: ["http://127.0.0.1:8556"] } }, contracts: { multicall3: { address: "0xcA11bde05977b3631167028862bE2a173976CA11" } } };
+const c2 = createPublicClient({ chain: chainWithMc, transport: http(undefined, { timeout: 120_000 }) });
+const r = await c2.multicall({ allowFailure: true, contracts: [1n, 94n, 2n].map((id) => ({ address: L, abi: whipsLauncherAbi, functionName: "claims", args: [id] })) });
+console.log("multicall", JSON.stringify(r, (k, v) => (typeof v === "bigint" ? v.toString() : v)).slice(0, 600));

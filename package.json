@@ -1,0 +1,43 @@
+{
+  "name": "whips",
+  "version": "0.1.0",
+  "private": true,
+  "description": "launch tokens. paired with cars. \u2014 a Pons V2 launcher on Robinhood Chain where every iconic car is one token, claimed once.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "catalog:root": "node --no-warnings --experimental-strip-types scripts/catalog-root.mts",
+    "font:glyphs": "node scripts/font-glyphs.mjs",
+    "contracts:test": "npm --prefix contracts test",
+    "contracts:fork": "npm --prefix contracts run fork:check",
+    "photos:fetch": "node --no-warnings --experimental-strip-types scripts/fetch-photos.mts",
+    "photos:cutout": "python scripts/cutout-photos.py",
+    "photos:pack": "python scripts/pack-photos.py"
+  },
+  "dependencies": {
+    "@openzeppelin/merkle-tree": "^1.0.8",
+    "@rainbow-me/rainbowkit": "^2.2.11",
+    "@tanstack/react-query": "^5.102.8",
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "^0.186.0",
+    "viem": "^2.56.5",
+    "wagmi": "^2.19.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.186.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.5",
+    "opentype.js": "^2.0.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
